@@ -1,0 +1,18 @@
+[report]
+# Regexes for lines to exclude from consideration
+exclude_lines =
+    # Don't complain if non-runnable code isn't run:
+    if 0:
+    if __name__ == .__main__.:
+    pass
+    def __repr__
+    from
+    import
+show_missing = true
+
+[run]
+branch = True
+
+omit =
+    # omit anything in a .local directory anywhere
+    */.local/*
