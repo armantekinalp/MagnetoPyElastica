@@ -11,7 +11,6 @@ description = "Python software for simulating magnetic Cosserat rods."
 authors = ["Arman Tekinalp <armant2@illinois.edu>, Yashraj Bhosale <bhosale2@illinois.edu>"]
 license = "MIT"
 repository = "https://github.com/armantekinalp/MagnetoPyElastica"
-#homepage = "https://mindinvitro.illinois.edu"
 #documentation = "https://miv-os.readthedocs.io"
 #keywords = []
 
@@ -26,14 +25,7 @@ pyelastica = "^0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
-isort = {extras = ["colors"], version = "^5.10.1"}
-#mypy = "^0.950"
-#mypy-extensions = "^0.4.3"
-#pre-commit = "^2.19.0"
-#pydocstyle = "^6.1.1"
-#pylint = "^2.13.9"
 pytest = "^7.1.2"
-#pyupgrade = "^2.32.1"
 coverage = "^6.3.3"
 pytest-html = "^3.1.1"
 pytest-cov = "^3.0.0"
@@ -61,40 +53,7 @@ exclude = '''
 )/
 '''
 
-
-[tool.isort]
-# https://github.com/timothycrosley/isort/
-py_version = 38
-line_length = 88
-include_trailing_comma = true
-profile = "black"
-multi_line_output = 3
-indent = 4
-color_output = true
-
-
 [tool.pytest.ini_options]
 # https://docs.pytest.org/en/6.2.x/customize.html#pyproject-toml
 # Directories that are not visited by pytest collector:
 norecursedirs =["hooks", "*.egg", ".eggs", "dist", "build", "docs", ".tox", ".git", "__pycache__"]
-doctest_optionflags = ["NUMBER", "NORMALIZE_WHITESPACE", "IGNORE_EXCEPTION_DETAIL", "ELLIPSIS"]
-
-# Extra options:
-addopts = [
-  "--strict-markers",
-  "--tb=short",
-#  "--doctest-modules", TODO: Try to include pytest.doctest
-#  "--doctest-continue-on-failure",
-]
-
-[tool.coverage.run]
-source = ["tests"]
-
-[coverage.paths]
-source = "magneto_pyelastica"
-
-[coverage.run]
-branch = true
-
-[coverage.report]
-show_missing = true
