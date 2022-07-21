@@ -55,7 +55,7 @@ class MagneticForces(NoForces):
         """
         super(NoForces, self).__init__()
         self.external_magnetic_field = external_magnetic_field
-        rod_n_elem = rod_volume.shape[1]
+        rod_n_elem = rod_volume.shape[0]
 
         # if fixed value, then expand to rod element size
         if magnetization_direction.shape == (3,):
