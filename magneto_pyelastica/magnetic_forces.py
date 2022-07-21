@@ -58,15 +58,16 @@ class MagneticForces(NoForces):
         rod_n_elem = rod_volume.shape[0]
 
         # if fixed value, then expand to rod element size
-        if magnetization_direction.shape == (3,):
-            magnetization_direction = magnetization_direction.reshape(3, 1) * np.ones(
+        if magnetization_direction.shape == (3,) or magnetization_direction.shape == (
+            3,
+            rod_n_elem,
+        ):
+            magnetization_direction = magnetization_direction.reshape(3, -1) * np.ones(
                 (rod_n_elem,)
             )
-        elif magnetization_direction.shape == (3, rod_n_elem):
-            pass
         else:
             raise ValueError(
-                "Invalid magnetization direction! Should be either a (3,) array or"
+                "Invalid magnetization direction! Should be either a (3,) array or "
                 "an array of shape (3, num_rod_elements)"
             )
         # normalise for unit vectors
@@ -81,7 +82,7 @@ class MagneticForces(NoForces):
             or magnetization_density.shape == (rod_n_elem,)
         ):
             raise ValueError(
-                "Invalid magnetization intensity! Should be either a float or"
+                "Invalid magnetization intensity! Should be either a float or "
                 "an array of shape (num_rod_elements,)"
             )
 
