@@ -25,12 +25,12 @@ pre-commit-install:
 .PHONY: black
 black:
 	poetry run black --version
-	poetry run black --config pyproject.toml magneto_pyelastica tests examples
+	poetry run black --config pyproject.toml magneto_pyelastica tests
 
 .PHONY: black-check
 black-check:
 	poetry run black --version
-	poetry run black --diff --check --config pyproject.toml magneto_pyelastica tests examples
+	poetry run black --diff --check --config pyproject.toml magneto_pyelastica tests
 
 .PHONY: flake8
 flake8:
