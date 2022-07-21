@@ -1,0 +1,60 @@
+# This is a basic workflow to help you get started with Actions
+name: CI
+
+# Controls when the action will run.
+on: [push, pull_request]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.7", "3.8", "3.9", "3.10"]
+        os: [ubuntu-latest, macos-latest] #, windows-latest] # Run macos tests if really required, since they charge 10 times more for macos
+        include:
+          - os: ubuntu-latest
+            path: ~/.cache/pip
+          - os: macos-latest
+            path: ~/Library/Caches/pip
+    #          - os: windows-latest
+    #            path: ~\AppData\Local\pip\Cache
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+      # Ref: https://docs.github.com/en/free-pro-team@latest/actions/guides/building-and-testing-python
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+      # You can test your matrix by printing the current Python version
+      - name: Display Python version
+        run: python -c "import sys; print(sys.version)"
+      # Install Poetry and dependencies
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Set up cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ matrix.path }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+      # Runs a single command using the runners shell
+      - name: Welcome message
+        run: echo Hello, world! Welcome MagnetoPyElastica Build, lets start testing!
+      # Run style checks (black and flake8)
+      - name: Run style checks
+        run: |
+          make check-codestyle
+      # Test PyElastica using pytest
+      - name: Run tests
+        run: |
+          make test
