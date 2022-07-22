@@ -22,6 +22,9 @@ packages = [
 [tool.poetry.dependencies]
 python = ">=3.8,<3.11"
 pyelastica = "^0.2"
+ffmpeg = {version = "^1.4", optional = true, extras = ["examples"]}
+cma = {version = "^3.2.2", optional = true, extras = ["examples"]}
+
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
@@ -31,6 +34,12 @@ pytest-html = "^3.1.1"
 pytest-cov = "^3.0.0"
 flake8 = "^4.0.1"
 pre-commit = "^2.19.0"
+
+[tool.poetry.extras]
+examples = [
+  "cma",
+  "ffmpeg",
+]
 
 [tool.black]
 # https://github.com/psf/black
