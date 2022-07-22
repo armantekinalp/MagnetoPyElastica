@@ -58,6 +58,41 @@ jobs:
       - name: Run tests
         run: |
           make test
+  report-coverage:  # Report coverage from python 3.8 and mac-os. May change later
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        python-version: ["3.8"]
+        os: [macos-latest]
+        include:
+          - os: macos-latest
+            path: ~/Library/Caches/pip
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v2.2.2
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Set up cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ matrix.path }}
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      - name: Install dependencies
+        run: |
+          poetry config virtualenvs.in-project true
+          poetry install
+      - name: Run style checks
+        run: |
+          make check-codestyle
+      - name: Test PyElastica using pytest
+        if: startsWith(runner.os, 'macOS')
+        run: |
+          make test_ci
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
