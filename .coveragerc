@@ -16,3 +16,4 @@ branch = True
 omit =
     # omit anything in a .local directory anywhere
     */.local/*
+    magneto_pyelastica/version.py
