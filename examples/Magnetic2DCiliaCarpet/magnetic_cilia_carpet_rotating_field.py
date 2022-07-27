@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+
 # FIXME without appending sys.path make it more generic
 sys.path.append("../")
 sys.path.append("../../")
@@ -30,9 +31,9 @@ for i in range(n_rods):
 direction = np.array([0.0, 0.0, 1.0])
 normal = np.array([0.0, 1.0, 0.0])
 base_radius = 0.15  # m
-base_area = np.pi * base_radius ** 2
+base_area = np.pi * base_radius**2
 volume = base_area * base_length
-moment_of_inertia = np.pi / 4 * base_radius ** 4
+moment_of_inertia = np.pi / 4 * base_radius**4
 density = 2.39e3  # kg/m3
 nu = 50
 E = 1.85e5  # Pa
@@ -113,14 +114,16 @@ magnetic_field_object = SingleModeOscillatingMagneticField(
 )
 
 # Apply magnetic forces
-for magnetization_direction, magnetic_rod in zip(magnetization_direction_list, magnetic_rod_list):
+for magnetization_direction, magnetic_rod in zip(
+    magnetization_direction_list, magnetic_rod_list
+):
     magnetic_beam_sim.add_forcing_to(magnetic_rod).using(
         MagneticForces,
         external_magnetic_field=magnetic_field_object,
-        magnetization_density = magnetization_density,
-        magnetization_direction = magnetization_direction,
-        rod_volume = magnetic_rod.volume,
-        rod_director_collection = magnetic_rod.director_collection,
+        magnetization_density=magnetization_density,
+        magnetization_direction=magnetization_direction,
+        rod_volume=magnetic_rod.volume,
+        rod_director_collection=magnetic_rod.director_collection,
     )
 
 # Add callbacks
@@ -141,7 +144,7 @@ class MagneticBeamCallBack(CallBackBaseClass):
             self.callback_params["tangents"].append(system.tangents.copy())
 
 
-num_cycles = 1/3#3
+num_cycles = 1 / 3  # 3
 final_time = num_cycles * 2 * np.pi / angular_frequency
 dl = base_length / n_elem
 dt = 0.01 * dl
@@ -177,6 +180,7 @@ plot_video_with_surface(
 
 # Save data as npz file
 import os
+
 current_path = os.getcwd()
 save_folder = os.path.join(current_path, "data")
 os.makedirs(save_folder, exist_ok=True)

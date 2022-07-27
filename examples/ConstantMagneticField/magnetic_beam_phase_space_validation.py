@@ -26,7 +26,7 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
     normal = np.array([0.0, 1.0, 0.0])
     base_length = 6.0
     base_radius = 0.15
-    base_area = np.pi * base_radius ** 2
+    base_area = np.pi * base_radius**2
     density = 5000
     nu = 10
     E = 1e6
@@ -65,10 +65,10 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
     magnetic_beam_sim.add_forcing_to(magnetic_rod).using(
         MagneticForces,
         external_magnetic_field=magnetic_field_object,
-        magnetization_density = magnetization_density,
-        magnetization_direction = magnetization_direction,
-        rod_volume = magnetic_rod.volume,
-        rod_director_collection = magnetic_rod.director_collection,
+        magnetization_density=magnetization_density,
+        magnetization_direction=magnetization_direction,
+        rod_volume=magnetic_rod.volume,
+        rod_director_collection=magnetic_rod.director_collection,
     )
 
     magnetic_beam_sim.finalize()
@@ -80,12 +80,12 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
     integrate(timestepper, magnetic_beam_sim, final_time, total_steps)
 
     # Compute MBAL2/EI
-    moment_of_inertia = np.pi / 4 * base_radius ** 4
+    moment_of_inertia = np.pi / 4 * base_radius**4
     MBAL2_EI = (
         magnetization_density
         * magnetic_field
         * base_area
-        * base_length ** 2
+        * base_length**2
         / (E * moment_of_inertia)
     )
 
@@ -105,8 +105,8 @@ def compute_analytical_solution(
 ):
     base_length = 6
     base_radius = 0.15
-    base_area = np.pi * base_radius ** 2
-    I = np.pi / 4 * base_radius ** 4
+    base_area = np.pi * base_radius**2
+    I = np.pi / 4 * base_radius**4
     E = 1e6
 
     f = magnetization_density * base_area * magnetic_field
@@ -134,7 +134,7 @@ def compute_analytical_solution(
         )
         theta[i], deflection[i], theta_dot[i] = magneto()
 
-    return f * base_length ** 2 / (E * I), deflection, theta
+    return f * base_length**2 / (E * I), deflection, theta
 
 
 if __name__ == "__main__":

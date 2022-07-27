@@ -1,5 +1,6 @@
 import sys
 import numpy as np
+
 # FIXME without appending sys.path make it more generic
 sys.path.append("../")
 sys.path.append("../../")
@@ -24,9 +25,9 @@ direction = np.array([0.0, 0.0, 1.0])
 normal = np.array([0.0, 1.0, 0.0])
 base_length = 1.5  # m
 base_radius = 0.15  # m
-base_area = np.pi * base_radius ** 2
+base_area = np.pi * base_radius**2
 volume = base_area * base_length
-moment_of_inertia = np.pi / 4 * base_radius ** 4
+moment_of_inertia = np.pi / 4 * base_radius**4
 density = 2.39e3  # kg/m3
 nu = 50
 E = 1.85e5  # Pa

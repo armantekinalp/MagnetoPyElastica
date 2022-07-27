@@ -74,10 +74,10 @@ magnetic_field_object = ConstantMagneticField(
 magnetic_beam_sim.add_forcing_to(magnetic_rod).using(
     MagneticForces,
     external_magnetic_field=magnetic_field_object,
-    magnetization_density = magnetization_density,
-    magnetization_direction = magnetization_direction,
-    rod_volume = magnetic_rod.volume,
-    rod_director_collection = magnetic_rod.director_collection,
+    magnetization_density=magnetization_density,
+    magnetization_direction=magnetization_direction,
+    rod_volume=magnetic_rod.volume,
+    rod_director_collection=magnetic_rod.director_collection,
 )
 
 # Add callbacks
@@ -136,6 +136,6 @@ if PLOT_FIGURE:
         ax.set_ylabel("|v|")
         fig.show()
 
-        plt.show() # block
+        plt.show()  # block
     if SAVE_FIGURE:
         fig.savefig("Magnetic_beam_profile: N=" + str(magnetic_rod.n_elems) + ".png")
