@@ -1,10 +1,4 @@
-import sys
 import numpy as np
-
-# FIXME without appending sys.path make it more generic
-sys.path.append("../")
-sys.path.append("../../")
-sys.path.append("../../../")
 from elastica import *
 from magneto_pyelastica import *
 from examples.post_processing import (
