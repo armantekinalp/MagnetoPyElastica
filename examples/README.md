@@ -4,16 +4,10 @@ This directory contains number of examples of magneto pyelastica.
 Each [example cases](#example-cases) are stored in separate subdirectories, containing case descriptions, run file, and all other data/script necessary to run.
 
 ## Installing Requirements
-In order to run examples, you will need to install additional dependencies.
+In order to run examples, you will need to install additional dependencies via
 
 ```bash
-poetry install -E examples
-```
-
-For making videos we are using the `ffmpeg` package. You will need to install it using `conda-forge`
-
-```bash
-conda install -c conda-forge ffmpeg
+make install_examples_dependencies
 ```
 
 ## Case Examples
