@@ -1,7 +1,7 @@
 # MagnetoPyElastica Examples
 
-This directory contains number of examples of magneto pyelastica.
-Each [example cases](#example-cases) are stored in separate subdirectories, containing case descriptions, run file, and all other data/script necessary to run.
+This directory contains number of examples illustrating usage of MagnetoPyElastica.
+Each of the [example cases](#example-cases) is stored in separate subdirectories, containing case descriptions, run file, and all other data/scripts necessary to run.
 
 ## Installing Requirements
 In order to run examples, you will need to install additional dependencies via
