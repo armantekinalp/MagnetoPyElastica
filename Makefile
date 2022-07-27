@@ -14,6 +14,11 @@ poetry-remove:
 .PHONY: install
 install:
 	poetry install
+	
+.PHONY: install_examples_dependencies
+install_examples_dependencies:
+        poetry install -E examples
+	conda install -c conda-forge ffmpeg
 
 .PHONY: install_with_new_dependency
 install_with_new_dependency:
