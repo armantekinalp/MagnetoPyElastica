@@ -2,20 +2,20 @@
 
 [![CI][badge-CI]][link-CI]  [![codecov][badge-codecov]][link-codecov]
 
-MagnetoPyElastica is an *open-source* project for simulating magnetic Cosserat rods and it is an extension of [pyelastica][pyelastica-repo]
+MagnetoPyElastica is an *open-source* project for simulating magnetic Cosserat rods interacting with external magnetic environments, and is an extension of [PyElastica][pyelastica-repo].
 
 [//]: # ([![gallery][link-readme-gallary]][link-project-website])
 
-Visit [cosseratrods.org][link-project-website] for more information and learn about Elastica and Cosserat rod theory.
+Visit [cosseratrods.org][link-project-website] to learn more about Elastica and Cosserat rod theory.
 
 ## Installation
 
 [//]: # ([![PyPI version][badge-pypi]][link-pypi])
 
-PyElastica is compatible with Python 3.7 - 3.10. The easiest way to install PyElastica is with PIP.
+MagnetoPyElastica is compatible with Python 3.7 - 3.10. The easiest way to install MagnetoPyElastica is with PIP.
 
 ~~~bash
-$ pip install magnetopyelastica
+$ pip install magneto_pyelastica
 ~~~
 
 [//]: # (## Documentation)
@@ -38,8 +38,21 @@ MagnetoPyElastica is developed by the [Gazzola Lab][link-lab-website] at the Uni
 
 ## Citation
 
-We ask that any publications which use MagnetoPyElastica cite the following papers:
+```
+@misc{MagnetoPyElastica,
+  author = {Arman Tekinalp, Yashraj Bhosale},
+  title = {MagnetoPyElastica: A Computational Framework for simulating Magnetic Cosserat rods},
+  year = {2022},
+  publisher = {GitHub},
+  journal = {GitHub repository},
+  howpublished = {\url{https://github.com/GazzolaLab/MagnetoPyElastica}},
+}
+```
 
+We ask that any publications which use MiV-OS package to cite the following papers:
+```
+
+```
 
 ## Senior Developers ✨
 _Names arranged alphabetically_
