@@ -14,10 +14,10 @@ poetry-remove:
 .PHONY: install
 install:
 	poetry install
-	
+
 .PHONY: install_examples_dependencies
 install_examples_dependencies:
-        poetry install -E examples
+	poetry install -E examples
 	conda install -c conda-forge ffmpeg
 
 .PHONY: install_with_new_dependency
@@ -33,12 +33,12 @@ pre-commit-install:
 .PHONY: black
 black:
 	poetry run black --version
-	poetry run black --config pyproject.toml magneto_pyelastica tests
+	poetry run black --config pyproject.toml magneto_pyelastica tests examples
 
 .PHONY: black-check
 black-check:
 	poetry run black --version
-	poetry run black --diff --check --config pyproject.toml magneto_pyelastica tests
+	poetry run black --diff --check --config pyproject.toml magneto_pyelastica tests examples
 
 .PHONY: flake8
 flake8:
