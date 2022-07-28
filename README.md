@@ -48,11 +48,6 @@ MagnetoPyElastica is developed by the [Gazzola Lab][link-lab-website] at the Uni
 }
 ```
 
-We ask that any publications which use MiV-OS package to cite the following papers:
-```
-
-```
-
 ## Senior Developers ✨
 _Names arranged alphabetically_
 - [Arman Tekinalp](https://github.com/armantekinalp)
