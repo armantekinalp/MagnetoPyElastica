@@ -39,13 +39,12 @@ MagnetoPyElastica is developed by the [Gazzola Lab][link-lab-website] at the Uni
 ## Citation
 
 ```
-@misc{MagnetoPyElastica,
-  author = {Arman Tekinalp, Yashraj Bhosale},
-  title = {MagnetoPyElastica: A Computational Framework for simulating Magnetic Cosserat rods},
-  year = {2022},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/GazzolaLab/MagnetoPyElastica}},
+@misc{tekinalp2022magnetopyelastica,
+  title={MagnetoPyElastica: A computational framework for magnetic Cosserat rod assemblies},
+  author={Tekinalp, Arman and Bhosale, Yashraj},
+  journal={https://github.com/armantekinalp/MagnetoPyElastica},
+  year={2022},
+  publisher={GitHub}
 }
 ```
 
