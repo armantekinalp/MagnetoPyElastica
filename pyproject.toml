@@ -7,12 +7,12 @@ build-backend = "poetry.core.masonry.api"
 name = "magneto_pyelastica"
 version = "0.0.1"
 description = "Python software for simulating magnetic Cosserat rods."
-#readme = "README.md"
+readme = "README.md"
 authors = ["Arman Tekinalp <armant2@illinois.edu>", "Yashraj Bhosale <bhosale2@illinois.edu>"]
 license = "MIT"
 repository = "https://github.com/armantekinalp/MagnetoPyElastica"
 #documentation = "https://miv-os.readthedocs.io"
-#keywords = []
+keywords = ["python", "simulation", "elastica", "cosserat-rod", "magneto-elastodynamics"]
 
 # ...
 packages = [
