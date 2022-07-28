@@ -8,7 +8,7 @@ name = "magneto_pyelastica"
 version = "0.0.1"
 description = "Python software for simulating magnetic Cosserat rods."
 #readme = "README.md"
-authors = ["Arman Tekinalp <armant2@illinois.edu>, Yashraj Bhosale <bhosale2@illinois.edu>"]
+authors = ["Arman Tekinalp <armant2@illinois.edu>", "Yashraj Bhosale <bhosale2@illinois.edu>"]
 license = "MIT"
 repository = "https://github.com/armantekinalp/MagnetoPyElastica"
 #documentation = "https://miv-os.readthedocs.io"
@@ -23,7 +23,7 @@ packages = [
 python = ">=3.8,<3.11"
 pyelastica = {git = "https://github.com/GazzolaLab/PyElastica.git", rev = "update-0.3.0"}
 cma = {version = "^3.2.2", optional = true, extras = ["examples"]}
-
+matplotlib = {version = "^3.3.2", optional = true, extras = ["examples"]}
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
@@ -36,7 +36,7 @@ pre-commit = "^2.19.0"
 
 [tool.poetry.extras]
 examples = [
-  "cma",
+  "cma", "matplotlib",
 ]
 
 [tool.black]
