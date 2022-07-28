@@ -6,7 +6,9 @@ from post_processing import (
 )
 
 
-class MagneticBeamSimulator(BaseSystemCollection, Constraints, Forcing, CallBacks):
+class MagneticBeamSimulator(
+    BaseSystemCollection, Constraints, Forcing, Damping, CallBacks
+):
     pass
 
 
@@ -29,7 +31,6 @@ base_area = np.pi * base_radius**2
 volume = base_area * base_length
 moment_of_inertia = np.pi / 4 * base_radius**4
 density = 2.39e3  # kg/m3
-nu = 50
 E = 1.85e5  # Pa
 shear_modulus = 6.16e4  # Pa
 
@@ -80,7 +81,7 @@ for i in range(n_rods):
         base_length,
         base_radius,
         density,
-        nu,
+        0.0,
         E,
         shear_modulus=shear_modulus,
     )
@@ -138,10 +139,20 @@ class MagneticBeamCallBack(CallBackBaseClass):
             self.callback_params["tangents"].append(system.tangents.copy())
 
 
-num_cycles = 1 / 3  # 3
+# add damping
+dl = base_length / n_elem
+dt = 0.1 * dl
+damping_constant = 0.5
+for i in range(n_rods):
+    magnetic_beam_sim.dampen(magnetic_rod_list[i]).using(
+        ExponentialDamper,
+        damping_constant=damping_constant,
+        time_step=dt,
+    )
+
+num_cycles = 2.0
 final_time = num_cycles * 2 * np.pi / angular_frequency
 dl = base_length / n_elem
-dt = 0.01 * dl
 total_steps = int(final_time / dt)
 rendering_fps = 30
 step_skip = int(1.0 / (rendering_fps * dt))
@@ -165,41 +176,41 @@ integrate(timestepper, magnetic_beam_sim, final_time, total_steps)
 plot_video_with_surface(
     rod_post_processing_list,
     fps=rendering_fps,
-    step=4,
+    step=10,
     x_limits=(-spacing_between_rods, carpet_length_x + spacing_between_rods),
     y_limits=(-spacing_between_rods, carpet_length_y + spacing_between_rods),
-    z_limits=(-spacing_between_rods, 1.5 * base_length),
+    z_limits=(-0.1 * base_length, 1.5 * base_length),
     vis3D=True,
 )
 
-# Save data as npz file
-import os
+save_data = False
+if save_data:
+    # Save data as npz file
+    import os
 
-current_path = os.getcwd()
-save_folder = os.path.join(current_path, "data")
-os.makedirs(save_folder, exist_ok=True)
-time = np.array(rod_post_processing_list[0]["time"])
+    current_path = os.getcwd()
+    save_folder = os.path.join(current_path, "data")
+    os.makedirs(save_folder, exist_ok=True)
+    time = np.array(rod_post_processing_list[0]["time"])
 
-n_magnetic_rod = len(magnetic_rod_list)
+    n_magnetic_rod = len(magnetic_rod_list)
 
-magnetic_rods_position_history = np.zeros(
-    (n_magnetic_rod, time.shape[0], 3, n_elem + 1)
-)
-magnetic_rods_radius_history = np.zeros((n_magnetic_rod, time.shape[0], n_elem))
-
-
-for i in range(n_magnetic_rod):
-    magnetic_rods_position_history[i, :, :, :] = np.array(
-        rod_post_processing_list[i]["position"]
+    magnetic_rods_position_history = np.zeros(
+        (n_magnetic_rod, time.shape[0], 3, n_elem + 1)
     )
-    magnetic_rods_radius_history[i, :, :] = np.array(
-        rod_post_processing_list[i]["radius"]
+    magnetic_rods_radius_history = np.zeros((n_magnetic_rod, time.shape[0], n_elem))
+
+    for i in range(n_magnetic_rod):
+        magnetic_rods_position_history[i, :, :, :] = np.array(
+            rod_post_processing_list[i]["position"]
+        )
+        magnetic_rods_radius_history[i, :, :] = np.array(
+            rod_post_processing_list[i]["radius"]
+        )
+
+    np.savez(
+        os.path.join(save_folder, "2d_magnetic_cilia_carpet_rotating.npz"),
+        time=time,
+        magnetic_rods_position_history=magnetic_rods_position_history,
+        magnetic_rods_radius_history=magnetic_rods_radius_history,
     )
-
-
-np.savez(
-    os.path.join(save_folder, "2d_magnetic_cilia_carpet_rotating.npz"),
-    time=time,
-    magnetic_rods_position_history=magnetic_rods_position_history,
-    magnetic_rods_radius_history=magnetic_rods_radius_history,
-)
