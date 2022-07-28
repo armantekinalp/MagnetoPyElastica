@@ -7,13 +7,15 @@ from post_processing import (
 )
 
 
-class MagneticBeamSimulator(BaseSystemCollection, Constraints, Forcing, CallBacks):
+class MagneticBeamSimulator(
+    BaseSystemCollection, Constraints, Forcing, Damping, CallBacks
+):
     pass
 
 
 magnetic_beam_sim = MagneticBeamSimulator()
 # setting up test params
-n_elem = 50
+n_elem = 25
 start = np.zeros((3,))
 direction = np.array([0.0, 0.0, 1.0])
 normal = np.array([0.0, 1.0, 0.0])
@@ -23,7 +25,6 @@ base_area = np.pi * base_radius**2
 volume = base_area * base_length
 moment_of_inertia = np.pi / 4 * base_radius**4
 density = 2.39e3  # kg/m3
-nu = 50
 E = 1.85e5  # Pa
 shear_modulus = 6.16e4  # Pa
 
@@ -50,7 +51,7 @@ magnetic_rod = CosseratRod.straight_rod(
     base_length,
     base_radius,
     density,
-    nu,
+    0.0,
     E,
     shear_modulus=shear_modulus,
 )
@@ -101,9 +102,18 @@ class MagneticBeamCallBack(CallBackBaseClass):
             self.callback_params["tangents"].append(system.tangents.copy())
 
 
-final_time = 2 * 2 * np.pi / angular_frequency  # run simulation for one period
+# add damping
 dl = base_length / n_elem
-dt = 0.01 * dl
+dt = 0.1 * dl
+damping_constant = 0.5
+magnetic_beam_sim.dampen(magnetic_rod).using(
+    ExponentialDamper,
+    damping_constant=damping_constant,
+    time_step=dt,
+)
+
+# run simulation for two periods
+final_time = 2 * 2 * np.pi / angular_frequency
 total_steps = int(final_time / dt)
 rendering_fps = 5
 step_skip = int(1.0 / (rendering_fps * dt))
@@ -123,7 +133,7 @@ integrate(timestepper, magnetic_beam_sim, final_time, total_steps)
 plot_video_with_surface(
     [post_processing_dict],
     fps=rendering_fps,
-    step=1,
+    step=4,
     x_limits=(-2, 2),
     y_limits=(-2, 2),
     z_limits=(-2, 2),
