@@ -6,14 +6,14 @@ from magneto_pyelastica import *
 from magnetic_beam_analytical_solution import MagneticBeamAnalytical
 
 
-class MagneticBeamSimulator(BaseSystemCollection, Constraints, Forcing):
+class MagneticBeamSimulator(BaseSystemCollection, Constraints, Forcing, Damping):
     pass
 
 
 def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_field):
     magnetic_beam_sim = MagneticBeamSimulator()
     # setting up test params
-    n_elem = 100
+    n_elem = 50
     start = np.zeros((3,))
     direction = np.array([1.0, 0.0, 0.0])
     normal = np.array([0.0, 1.0, 0.0])
@@ -21,7 +21,6 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
     base_radius = 0.15
     base_area = np.pi * base_radius**2
     density = 5000
-    nu = 10
     E = 1e6
     poisson_ratio = 0.5
     shear_modulus = E / (2 * poisson_ratio + 1.0)
@@ -35,7 +34,7 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
         base_length,
         base_radius,
         density,
-        nu,
+        0.0,
         E,
         shear_modulus=shear_modulus,
     )
@@ -64,11 +63,19 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
         rod_director_collection=magnetic_rod.director_collection,
     )
 
+    # add damping
+    dl = base_length / n_elem
+    dt = 0.05 * dl
+    damping_constant = 1.0
+    magnetic_beam_sim.dampen(magnetic_rod).using(
+        ExponentialDamper,
+        damping_constant=damping_constant,
+        time_step=dt,
+    )
+
     magnetic_beam_sim.finalize()
     timestepper = PositionVerlet()
     final_time = 1000
-    dl = base_length / n_elem
-    dt = 0.01 * dl
     total_steps = int(final_time / dt)
     integrate(timestepper, magnetic_beam_sim, final_time, total_steps)
 
