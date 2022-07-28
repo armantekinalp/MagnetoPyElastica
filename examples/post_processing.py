@@ -228,11 +228,19 @@ def plot_video_with_surface(
             if not inst_position.shape[1] == inst_radius.shape[0]:
                 inst_position = 0.5 * (inst_position[..., 1:] + inst_position[..., :-1])
 
+            # for reference see
+            # https://stackoverflow.com/questions/48172928/scale-matplotlib-pyplot
+            # -axes-scatter-markersize-by-x-scale/48174228#48174228
+            scaling_factor = (
+                ax.get_window_extent().width / (max_axis_length) * 72.0 / fig.dpi
+            )
+
             rod_scatters[rod_idx] = ax.scatter(
                 inst_position[0],
                 inst_position[1],
                 inst_position[2],
-                s=np.pi * (scaling_factor * inst_radius) ** 2,
+                # for circle s = 4/pi*area = 4 * r^2
+                s=4 * (scaling_factor * inst_radius) ** 2,
             )
 
         if sphere_flag:
@@ -241,11 +249,15 @@ def plot_video_with_surface(
                 sphere_position, sphere_radius = sphere_history_unpacker(
                     sphere_idx, time_idx
                 )
+                scaling_factor = (
+                    ax.get_window_extent().width / (max_axis_length) * 72.0 / fig.dpi
+                )
                 sphere_artists[sphere_idx] = ax.scatter(
                     sphere_position[0],
                     sphere_position[1],
                     sphere_position[2],
-                    s=np.pi * (scaling_factor * sphere_radius) ** 2,
+                    # for circle s = 4/pi*area = 4 * r^2
+                    s=4 * (scaling_factor * sphere_radius) ** 2,
                 )
                 # sphere_radius,
                 # color=sphere_cmap(sphere_idx),)
@@ -273,9 +285,15 @@ def plot_video_with_surface(
                             inst_position[2],
                         )
 
+                        scaling_factor = (
+                            ax.get_window_extent().width
+                            / (max_axis_length)
+                            * 72.0
+                            / fig.dpi
+                        )
                         # rod_scatters[rod_idx].set_offsets(inst_position[:2].T)
                         rod_scatters[rod_idx].set_sizes(
-                            np.pi * (scaling_factor * inst_radius) ** 2
+                            4 * (scaling_factor * inst_radius) ** 2
                         )
 
                     if sphere_flag:
@@ -323,10 +341,13 @@ def plot_video_with_surface(
             inst_com = com_history_unpacker(rod_idx, time_idx)
             rod_com_lines[rod_idx] = ax.plot(inst_com[0], inst_com[1], "k--", lw=2.0)[0]
 
+            scaling_factor = (
+                ax.get_window_extent().width / (max_axis_length) * 72.0 / fig.dpi
+            )
             rod_scatters[rod_idx] = ax.scatter(
                 inst_position[0],
                 inst_position[1],
-                s=np.pi * (scaling_factor * inst_radius) ** 2,
+                s=4 * (scaling_factor * inst_radius) ** 2,
             )
 
         if sphere_flag:
@@ -366,8 +387,14 @@ def plot_video_with_surface(
                         rod_com_lines[rod_idx].set_ydata(com[1])
 
                         rod_scatters[rod_idx].set_offsets(inst_position[:2].T)
+                        scaling_factor = (
+                            ax.get_window_extent().width
+                            / (max_axis_length)
+                            * 72.0
+                            / fig.dpi
+                        )
                         rod_scatters[rod_idx].set_sizes(
-                            np.pi * (scaling_factor * inst_radius) ** 2
+                            4 * (scaling_factor * inst_radius) ** 2
                         )
 
                     if sphere_flag:
@@ -414,10 +441,13 @@ def plot_video_with_surface(
             inst_com = com_history_unpacker(rod_idx, time_idx)
             rod_com_lines[rod_idx] = ax.plot(inst_com[2], inst_com[1], "k--", lw=2.0)[0]
 
+            scaling_factor = (
+                ax.get_window_extent().width / (max_axis_length) * 72.0 / fig.dpi
+            )
             rod_scatters[rod_idx] = ax.scatter(
                 inst_position[2],
                 inst_position[1],
-                s=np.pi * (scaling_factor * inst_radius) ** 2,
+                s=4 * (scaling_factor * inst_radius) ** 2,
             )
 
         if sphere_flag:
@@ -459,8 +489,14 @@ def plot_video_with_surface(
                         rod_scatters[rod_idx].set_offsets(
                             np.vstack((inst_position[2], inst_position[1])).T
                         )
+                        scaling_factor = (
+                            ax.get_window_extent().width
+                            / (max_axis_length)
+                            * 72.0
+                            / fig.dpi
+                        )
                         rod_scatters[rod_idx].set_sizes(
-                            np.pi * (scaling_factor * inst_radius) ** 2
+                            4 * (scaling_factor * inst_radius) ** 2
                         )
 
                     if sphere_flag:
@@ -507,10 +543,13 @@ def plot_video_with_surface(
             inst_com = com_history_unpacker(rod_idx, time_idx)
             rod_com_lines[rod_idx] = ax.plot(inst_com[0], inst_com[2], "k--", lw=2.0)[0]
 
+            scaling_factor = (
+                ax.get_window_extent().width / (max_axis_length) * 72.0 / fig.dpi
+            )
             rod_scatters[rod_idx] = ax.scatter(
                 inst_position[0],
                 inst_position[2],
-                s=np.pi * (scaling_factor * inst_radius) ** 2,
+                s=4 * (scaling_factor * inst_radius) ** 2,
             )
 
         if sphere_flag:
@@ -552,8 +591,14 @@ def plot_video_with_surface(
                         rod_scatters[rod_idx].set_offsets(
                             np.vstack((inst_position[0], inst_position[2])).T
                         )
+                        scaling_factor = (
+                            ax.get_window_extent().width
+                            / (max_axis_length)
+                            * 72.0
+                            / fig.dpi
+                        )
                         rod_scatters[rod_idx].set_sizes(
-                            np.pi * (scaling_factor * inst_radius) ** 2
+                            4 * (scaling_factor * inst_radius) ** 2
                         )
 
                     if sphere_flag:
