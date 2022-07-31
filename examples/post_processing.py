@@ -618,3 +618,45 @@ def plot_video_with_surface(
         # plt.close(fig) alone does not suffice
         # See https://github.com/matplotlib/matplotlib/issues/8560/
         plt.close(plt.gcf())
+
+
+def plot_center_of_mass_position(post_processing):
+    plt.rcParams.update({"font.size": 22})
+    fig = plt.figure(figsize=(10, 10), frameon=True, dpi=150)
+
+    com = np.array(post_processing["com"])
+    time = np.array(post_processing["time"])
+
+    axs = []
+    axs.append(plt.subplot2grid((3, 1), (0, 0)))
+    axs.append(plt.subplot2grid((3, 1), (1, 0)))
+    axs.append(plt.subplot2grid((3, 1), (2, 0)))
+
+    axs[0].plot(
+        time,
+        com[:, 0],
+        c=to_rgb("xkcd:bluish"),
+    )
+    axs[0].set_xlabel("time", fontsize=20)
+    axs[0].set_ylabel("x-pos", fontsize=20)
+
+    axs[1].plot(
+        time,
+        com[:, 1],
+        c=to_rgb("xkcd:bluish"),
+    )
+    axs[1].set_xlabel("time", fontsize=20)
+    axs[1].set_ylabel("y-pos", fontsize=20)
+
+    axs[2].plot(
+        time,
+        com[:, 2],
+        c=to_rgb("xkcd:bluish"),
+    )
+    axs[2].set_xlabel("time", fontsize=20)
+    axs[2].set_ylabel("z-pos", fontsize=20)
+
+    plt.tight_layout()
+    fig.align_ylabels()
+    fig.savefig("magnetic_decapot_position.png")
+    plt.close(plt.gcf())

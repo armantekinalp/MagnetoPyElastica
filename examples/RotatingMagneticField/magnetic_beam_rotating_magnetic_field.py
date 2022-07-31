@@ -1,7 +1,7 @@
 import numpy as np
 from elastica import *
 from magneto_pyelastica import *
-from post_processing import (
+from examples.post_processing import (
     plot_video_with_surface,
     plot_tip_position_history,
 )
