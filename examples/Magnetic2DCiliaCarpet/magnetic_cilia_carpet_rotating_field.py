@@ -1,7 +1,7 @@
 import numpy as np
 from elastica import *
 from magneto_pyelastica import *
-from post_processing import (
+from examples.post_processing import (
     plot_video_with_surface,
 )
 
@@ -145,7 +145,7 @@ dt = 0.1 * dl
 damping_constant = 0.5
 for i in range(n_rods):
     magnetic_beam_sim.dampen(magnetic_rod_list[i]).using(
-        ExponentialDamper,
+        AnalyticalLinearDamper,
         damping_constant=damping_constant,
         time_step=dt,
     )

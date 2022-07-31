@@ -585,7 +585,7 @@ for idx, rod in enumerate(rod_list):
 damping_constant = 1.5  # 0.6
 for i, rod in enumerate(rod_list):
     magnetic_decapot_simulator.dampen(rod).using(
-        ExponentialDamper,
+        AnalyticalLinearDamper,
         damping_constant=damping_constant,
         time_step=dt,
     )
