@@ -187,7 +187,7 @@ for backbone_idx in range(n_backbone_rods):
         magnetic_rod_list.append(magnetic_rod)
         magnetization_direction_list.append(magnetization_direction.copy())
 
-rod_list += backbone_rod_list + magnetic_rod_list
+# rod_list += backbone_rod_list + magnetic_rod_list
 
 # Second set of backbones
 backbone_rod_second_layer_list = []
@@ -229,7 +229,7 @@ for i in range(n_elem_back_bone):
     magnetic_decapot_simulator.append(back_bone_rod)
     backbone_rod_second_layer_list.append(back_bone_rod)
 
-rod_list += backbone_rod_second_layer_list
+rod_list += backbone_rod_list + backbone_rod_second_layer_list + magnetic_rod_list
 
 
 # Connections
@@ -617,48 +617,73 @@ plot_center_of_mass_position(
     rod_post_processing_list[6],
 )
 
-# # Save data as npz file
-# current_path = os.getcwd()
-# save_folder = os.path.join(current_path, "data")
-# os.makedirs(save_folder, exist_ok=True)
-# time = np.array(rod_post_processing_list[0]["time"])
-#
-# n_magnetic_rod = len(magnetic_rod_list)
-#
-# magnetic_rods_position_history = np.zeros(
-#     (n_magnetic_rod, time.shape[0], 3, n_elem_magnetic_rod + 1)
-# )
-# magnetic_rods_radius_history = np.zeros(
-#     (n_magnetic_rod, time.shape[0], n_elem_magnetic_rod)
-# )
-# backbone_rods_position_history = np.zeros(
-#     (n_backbone_rods, time.shape[0], 3, n_elem_back_bone + 1)
-# )
-# backbone_rods_radius_history = np.zeros(
-#     (n_backbone_rods, time.shape[0], n_elem_back_bone)
-# )
-#
-# for i in range(n_magnetic_rod):
-#     magnetic_rods_position_history[i, :, :, :] = np.array(
-#         rod_post_processing_list[i]["position"]
-#     )
-#     magnetic_rods_radius_history[i, :, :] = np.array(
-#         rod_post_processing_list[i]["radius"]
-#     )
-#
-# for i in range(n_backbone_rods):
-#     backbone_rods_position_history[i, :, :, :] = np.array(
-#         rod_post_processing_list[i + n_magnetic_rod]["position"]
-#     )
-#     backbone_rods_radius_history[i, :, :] = np.array(
-#         rod_post_processing_list[i + n_magnetic_rod]["radius"]
-#     )
-#
-# np.savez(
-#     os.path.join(save_folder, "magnetic_decapot.npz"),
-#     time=time,
-#     magnetic_rods_position_history=magnetic_rods_position_history,
-#     magnetic_rods_radius_history=magnetic_rods_radius_history,
-#     backbone_rods_position_history=backbone_rods_position_history,
-#     backbone_rods_radius_history=backbone_rods_radius_history,
-# )
+# Save data as npz file
+import os
+
+current_path = os.getcwd()
+save_folder = os.path.join(current_path, "data")
+os.makedirs(save_folder, exist_ok=True)
+time = np.array(rod_post_processing_list[0]["time"])
+
+n_magnetic_rod = len(magnetic_rod_list)
+n_backbone_rods_first_layer = len(backbone_rod_list)
+n_backbone_rods_second_layer = len(backbone_rod_second_layer_list)
+n_all_backbone_rods = len(backbone_rod_list + backbone_rod_second_layer_list)
+
+n_elem_back_bone_first_layer = backbone_rod_list[0].n_elems
+n_elem_back_bone_second_layer = backbone_rod_second_layer_list[0].n_elems
+
+magnetic_rods_position_history = np.zeros(
+    (n_magnetic_rod, time.shape[0], 3, n_elem_magnetic_rod + 1)
+)
+magnetic_rods_radius_history = np.zeros(
+    (n_magnetic_rod, time.shape[0], n_elem_magnetic_rod)
+)
+backbone_rods_first_layer_position_history = np.zeros(
+    (n_backbone_rods_first_layer, time.shape[0], 3, n_elem_back_bone_first_layer + 1)
+)
+backbone_rods_first_layer_radius_history = np.zeros(
+    (n_backbone_rods_first_layer, time.shape[0], n_elem_back_bone_first_layer)
+)
+backbone_rods_second_layer_position_history = np.zeros(
+    (n_backbone_rods_second_layer, time.shape[0], 3, n_elem_back_bone_second_layer + 1)
+)
+backbone_rods_second_layer_radius_history = np.zeros(
+    (n_backbone_rods_second_layer, time.shape[0], n_elem_back_bone_second_layer)
+)
+
+
+for i in range(n_magnetic_rod):
+    magnetic_rods_position_history[i, :, :, :] = np.array(
+        rod_post_processing_list[i + n_all_backbone_rods]["position"]
+    )
+    magnetic_rods_radius_history[i, :, :] = np.array(
+        rod_post_processing_list[i + n_all_backbone_rods]["radius"]
+    )
+
+for i in range(n_backbone_rods_first_layer):
+    backbone_rods_first_layer_position_history[i, :, :, :] = np.array(
+        rod_post_processing_list[i]["position"]
+    )
+    backbone_rods_first_layer_radius_history[i, :, :] = np.array(
+        rod_post_processing_list[i]["radius"]
+    )
+
+for i in range(n_backbone_rods_second_layer):
+    backbone_rods_second_layer_position_history[i, :, :, :] = np.array(
+        rod_post_processing_list[i + n_backbone_rods_first_layer]["position"]
+    )
+    backbone_rods_second_layer_radius_history[i, :, :] = np.array(
+        rod_post_processing_list[i + n_backbone_rods_first_layer]["radius"]
+    )
+
+np.savez(
+    os.path.join(save_folder, "magnetic_decapot.npz"),
+    time=time,
+    magnetic_rods_position_history=magnetic_rods_position_history,
+    magnetic_rods_radius_history=magnetic_rods_radius_history,
+    backbone_rods_first_layer_position_history=backbone_rods_first_layer_position_history,
+    backbone_rods_first_layer_radius_history=backbone_rods_first_layer_radius_history,
+    backbone_rods_second_layer_position_history=backbone_rods_second_layer_position_history,
+    backbone_rods_second_layer_radius_history=backbone_rods_second_layer_radius_history,
+)
