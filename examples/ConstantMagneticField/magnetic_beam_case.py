@@ -96,7 +96,7 @@ dl = base_length / n_elem
 dt = 0.05 * dl
 damping_constant = 1.0
 magnetic_beam_sim.dampen(magnetic_rod).using(
-    ExponentialDamper,
+    AnalyticalLinearDamper,
     damping_constant=damping_constant,
     time_step=dt,
 )
