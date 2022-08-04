@@ -204,7 +204,21 @@ class PerpendicularRodsConnection(FreeJoint):
 
         relative_velocity = rod_two_element_velocity - rod_one_element_velocity
 
-        damping_force = nu * relative_velocity
+        distance = np.linalg.norm(distance_vector)
+
+        if distance >= 1e-12:
+            normalized_distance_vector = distance_vector / distance
+        else:
+            normalized_distance_vector = np.zeros(
+                3,
+            )
+
+        normal_relative_velocity_vector = (
+            np.dot(relative_velocity, normalized_distance_vector)
+            * normalized_distance_vector
+        )
+
+        damping_force = nu * normal_relative_velocity_vector
 
         # Compute the total force
         total_force = spring_force + damping_force
