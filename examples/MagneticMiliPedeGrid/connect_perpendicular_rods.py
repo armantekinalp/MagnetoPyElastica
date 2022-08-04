@@ -1,8 +1,6 @@
 import numpy as np
-import numba
 from numba import njit
 from elastica.joint import FreeJoint
-from elastica._linalg import _batch_norm, _batch_matvec
 
 
 def get_connection_vector_for_perpendicular_rods(

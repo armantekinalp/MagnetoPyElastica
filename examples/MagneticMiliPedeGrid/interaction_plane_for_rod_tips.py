@@ -1,22 +1,15 @@
 import numpy as np
-from elastica.utils import MaxDimension
 from elastica.external_forces import NoForces
 
 
-import numba
 from numba import njit
 from elastica._linalg import (
-    _batch_matmul,
-    _batch_matvec,
-    _batch_cross,
     _batch_norm,
     _batch_dot,
     _batch_product_i_k_to_ik,
     _batch_product_i_ik_to_k,
     _batch_product_k_ik_to_ik,
     _batch_vector_sum,
-    _batch_matrix_transpose,
-    _batch_vec_oneD_vec_cross,
 )
 
 from elastica.interaction import (
@@ -24,7 +17,6 @@ from elastica.interaction import (
     node_to_element_position,
     node_to_element_mass_or_force,
     elements_to_nodes_inplace,
-    sum_over_elements,
     node_to_element_velocity,
 )
 

@@ -24,7 +24,6 @@ class BaseMagneticField:
         """
         BaseMagneticField class does not need any input parameters.
         """
-        pass
 
     def value(self, time: np.float64 = 0.0):
         """Returns the value of the magnetic field vector.
@@ -40,7 +39,6 @@ class BaseMagneticField:
         -------
 
         """
-        pass
 
 
 class ConstantMagneticField(BaseMagneticField):
