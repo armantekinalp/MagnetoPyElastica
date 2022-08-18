@@ -4,6 +4,8 @@
 
 MagnetoPyElastica is an *open-source* project for simulating magnetic Cosserat rods interacting with external magnetic environments, and is an extension of [PyElastica][pyelastica-repo].
 
+https://user-images.githubusercontent.com/33580851/185485978-f5962c41-89a4-4df7-b935-1ba92a55f1da.mov
+
 [//]: # ([![gallery][link-readme-gallary]][link-project-website])
 
 Visit [cosseratrods.org][link-project-website] to learn more about Elastica and Cosserat rod theory.
