@@ -1,7 +1,6 @@
 #* Variables
 PYTHON := python3
 PYTHONPATH := `pwd`
-AUTOFLAKE_ARGS := -r --remove-all-unused-imports --remove-unused-variables --ignore-init-module-imports
 #* Poetry
 .PHONY: poetry-download
 poetry-download:
@@ -46,19 +45,14 @@ flake8:
 	poetry run flake8 --version
 	poetry run flake8 magneto_pyelastica tests
 
-.PHONY: autoflake-check
-autoflake-check:
-	poetry run autoflake --version
-	poetry run autoflake $(AUTOFLAKE_ARGS) magneto_pyelastica tests examples
-	poetry run autoflake --check $(AUTOFLAKE_ARGS) magneto_pyelastica tests examples
-
-.PHONY: autoflake
-autoflake:
-	poetry run autoflake --version
-	poetry run autoflake --in-place $(AUTOFLAKE_ARGS) magneto_pyelastica tests examples
+.PHONY: autoflake8-check
+autoflake8-check:
+	poetry run autoflake8 --version
+	poetry run autoflake8 -r --exclude '__init__.py' magneto_pyelastica tests examples
+	poetry run autoflake8 --check -r --exclude '__init__.py' magneto_pyelastica tests examples
 
 .PHONY: format-codestyle
-format-codestyle: black flake8 autoflake
+format-codestyle: black flake8
 
 .PHONY: test
 test:
@@ -73,7 +67,7 @@ test_coverage_xml:
 	NUMBA_DISABLE_JIT=1 poetry run pytest --cov=magneto_pyelastica --cov-report=xml
 
 .PHONY: check-codestyle
-check-codestyle: black-check flake8 autoflake-check
+check-codestyle: black-check flake8 autoflake8-check
 
 .PHONY: formatting
 formatting: format-codestyle
