@@ -1,6 +1,6 @@
 <div align='center'> <h1> MagnetoPyElastica </h1> </div>
 
-[![CI][badge-CI]][link-CI]  [![codecov][badge-codecov]][link-codecov]
+[![CI][badge-CI]][link-CI]  [![codecov][badge-codecov]][link-codecov] [![DOI][badge-doi]][link-doi]
 
 MagnetoPyElastica is an *open-source* project for simulating magnetic Cosserat rods interacting with external magnetic environments, and is an extension of [PyElastica][pyelastica-repo].
 
@@ -41,12 +41,16 @@ MagnetoPyElastica is developed by the [Gazzola Lab][link-lab-website] at the Uni
 ## Citation
 
 ```
-@misc{tekinalp2022magnetopyelastica,
-  title={MagnetoPyElastica: A computational framework for magnetic Cosserat rod assemblies},
-  author={Tekinalp, Arman and Bhosale, Yashraj},
-  journal={https://github.com/armantekinalp/MagnetoPyElastica},
-  year={2022},
-  publisher={GitHub}
+@software{yashraj_bhosale_2023_7658892,
+  author       = {Yashraj Bhosale and
+                  Arman Tekinalp},
+  title        = {MagnetoPyElastica},
+  month        = feb,
+  year         = 2023,
+  publisher    = {Zenodo},
+  version      = {v.0.0.1.post1},
+  doi          = {10.5281/zenodo.7658892},
+  url          = {https://doi.org/10.5281/zenodo.7658892}
 }
 ```
 
@@ -65,6 +69,8 @@ _Names arranged alphabetically_
 
 [badge-CI]: https://github.com/armantekinalp/MagnetoPyElastica/workflows/CI/badge.svg
 [badge-codecov]: https://codecov.io/gh/armantekinalp/MagnetoPyElastica/branch/main/graph/badge.svg
+[badge-doi]: https://zenodo.org/badge/513349542.svg
 [link-CI]: https://github.com/armantekinalp/MagnetoPyElastica/actions
 [link-codecov]: https://codecov.io/gh/armantekinalp/MagnetoPyElastica
+[link-doi]: https://zenodo.org/badge/latestdoi/513349542
 [pyelastica-repo]: ttps://github.com/GazzolaLab/PyElastica
