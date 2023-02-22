@@ -44,7 +44,8 @@ MagnetoPyElastica is developed by the [Gazzola Lab][link-lab-website] at the Uni
 @software{yashraj_bhosale_2023_7658892,
   author       = {Yashraj Bhosale and
                   Arman Tekinalp},
-  title        = {MagnetoPyElastica},
+  title        = {{MagnetoPyElastica:  Open-source software for 
+                   simulating magnetic Cosserat rods}},
   month        = feb,
   year         = 2023,
   publisher    = {Zenodo},
