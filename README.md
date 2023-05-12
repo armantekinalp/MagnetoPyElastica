@@ -14,7 +14,7 @@ Visit [cosseratrods.org][link-project-website] to learn more about Elastica and 
 
 [//]: # ([![PyPI version][badge-pypi]][link-pypi])
 
-MagnetoPyElastica is compatible with Python 3.7 - 3.10. The easiest way to install MagnetoPyElastica is with PIP.
+MagnetoPyElastica is compatible with Python 3.8 - 3.10. The easiest way to install MagnetoPyElastica is with PIP.
 
 ~~~bash
 $ pip install magneto_pyelastica
