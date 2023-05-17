@@ -34,8 +34,7 @@ def run_magnetic_beam_sim(magnetization_density, magnetic_field_angle, magnetic_
         base_length,
         base_radius,
         density,
-        0.0,
-        E,
+        youngs_modulus=E,
         shear_modulus=shear_modulus,
     )
     magnetic_beam_sim.append(magnetic_rod)

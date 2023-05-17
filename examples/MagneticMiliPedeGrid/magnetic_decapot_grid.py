@@ -101,8 +101,7 @@ for backbone_idx in range(n_backbone_rods):
         base_length_back_bone,
         base_radius_backbone_rod,
         density / 5,
-        0.0,
-        E,  # * 2,
+        youngs_modulus=E,  # * 2,
         shear_modulus=shear_modulus,  # * 2,
     )
     magnetic_decapot_simulator.append(back_bone_rod)
@@ -179,8 +178,7 @@ for backbone_idx in range(n_backbone_rods):
             base_length_magnetic_rods,
             base_radius_magnetic_rod,
             density,
-            0.0,
-            E,
+            youngs_modulus=E,
             shear_modulus=shear_modulus,
         )
         magnetic_decapot_simulator.append(magnetic_rod)
@@ -222,8 +220,7 @@ for i in range(n_elem_back_bone):
         back_bone_length,
         base_radius_backbone_rod,
         density / 5,
-        0.0,
-        E,  # * 2,
+        youngs_modulus=E,  # * 2,
         shear_modulus=shear_modulus,  # * 2,
     )
     magnetic_decapot_simulator.append(back_bone_rod)

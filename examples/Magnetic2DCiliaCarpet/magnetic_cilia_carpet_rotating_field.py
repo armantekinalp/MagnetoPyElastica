@@ -81,8 +81,7 @@ for i in range(n_rods):
         base_length,
         base_radius,
         density,
-        0.0,
-        E,
+        youngs_modulus=E,
         shear_modulus=shear_modulus,
     )
     magnetic_beam_sim.append(magnetic_rod)
