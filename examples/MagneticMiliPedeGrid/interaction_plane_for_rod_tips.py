@@ -110,7 +110,7 @@ def apply_normal_force_numba(
     )
 
     # Compute total plane response force
-    plane_response_force_total = plane_response_force + elastic_force + damping_force
+    plane_response_force_total = elastic_force + damping_force
 
     # Check if the rod elements are in contact with plane.
     no_contact_point_idx = np.where((distance_from_plane - lengths / 2) > surface_tol)[
@@ -118,13 +118,13 @@ def apply_normal_force_numba(
     ]
     # If rod element does not have any contact with plane, plane cannot apply response
     # force on the element. Thus lets set plane response force to 0.0 for the no contact points.
-    plane_response_force[..., no_contact_point_idx] = 0.0
+    # plane_response_force[..., no_contact_point_idx] = 0.0
     plane_response_force_total[..., no_contact_point_idx] = 0.0
 
     # Update the external forces
     elements_to_nodes_inplace(plane_response_force_total, external_forces)
 
-    return (_batch_norm(plane_response_force), no_contact_point_idx)
+    return (_batch_norm(plane_response_force_total), no_contact_point_idx)
 
 
 class IsotropicFrictionalPlaneForRodTips(NoForces, InteractionPlaneForRodTips):
@@ -231,10 +231,14 @@ def isotropic_friction(
     )
 
     # Compute unitized total velocity vector in plane since friction force is opposite to the motion direction.
-    unitized_total_velocity_in_plane = velocity_perpendicular_to_axial_direction
-    unitized_total_velocity_in_plane /= _batch_norm(
-        unitized_total_velocity_in_plane + 1e-14
-    )
+    # unitized_total_velocity_in_plane = velocity_perpendicular_to_axial_direction
+    # unitized_total_velocity_in_plane /= _batch_norm(
+    #     unitized_total_velocity_in_plane + 1e-14
+    # )
+    l = _batch_norm(velocity_perpendicular_to_axial_direction + 1e-14)
+    unitized_total_velocity_in_plane = velocity_perpendicular_to_axial_direction / l
+    unitized_total_velocity_in_plane[:, l < 1e-8] = 0.0
+
     # Apply kinetic friction in axial direction.
     kinetic_friction_force_perpendicular_to_axial_direction = -(
         (1.0 - slip_function_perpendicular_to_axial_direction)
@@ -254,18 +258,23 @@ def isotropic_friction(
     # static friction
     nodal_total_forces = _batch_vector_sum(internal_forces, external_forces)
     element_total_forces = node_to_element_mass_or_force(nodal_total_forces)
-    force_component_along_axial_direction = _batch_dot(
-        element_total_forces, axial_direction
+    force_component_along_axial_direction = (
+        _batch_dot(element_total_forces, axial_direction) * axial_direction
     )
     force_component_perpendicular_to_axial_direction = (
         element_total_forces - force_component_along_axial_direction
     )
+    # force_component_sign_perpendicular_to_axial_direction = np.sign(
+    #     force_component_perpendicular_to_axial_direction
+    # )
+    mag = _batch_norm(force_component_perpendicular_to_axial_direction + 1e-14)
+    static_force_direction = force_component_perpendicular_to_axial_direction / mag
+    static_force_direction[:, mag < 1e-8] = 0.0
+
     force_component_sign_perpendicular_to_axial_direction = np.sign(
-        force_component_perpendicular_to_axial_direction
-    )
-    static_force_direction = (
-        force_component_perpendicular_to_axial_direction
-        / _batch_norm(force_component_perpendicular_to_axial_direction + 1e-14)
+        _batch_dot(
+            force_component_perpendicular_to_axial_direction, static_force_direction
+        )
     )
 
     max_friction_force = (
@@ -276,7 +285,8 @@ def isotropic_friction(
     # friction = min(mu N, pushing force)
     static_friction_force_perpendicular_to_axial_direction = -(
         np.minimum(
-            np.fabs(force_component_perpendicular_to_axial_direction),
+            # np.fabs(force_component_perpendicular_to_axial_direction),
+            _batch_norm(force_component_perpendicular_to_axial_direction),
             max_friction_force,
         )
         * force_component_sign_perpendicular_to_axial_direction
