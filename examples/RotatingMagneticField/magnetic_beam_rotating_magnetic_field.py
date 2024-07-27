@@ -28,10 +28,12 @@ density = 2.39e3  # kg/m3
 E = 1.85e5  # Pa
 shear_modulus = 6.16e4  # Pa
 
-# Parameters are from Gu2020
+# Parameters are from
+# Gu, Hongri, et al. "Magnetic cilia carpets with programmable metachronal waves." Nature communications 11.1 (2020).
 angular_frequency = np.deg2rad(10.0)  # angular frequency of the rotating magnetic field
 magnetic_field_strength = 80e-3  # 80mT
-# MBAL2_EI is a non-dimensional number from Wang 2019
+# MBAL2_EI is a non-dimensional number from 
+# Wang, Liu, et al. "Hard-magnetic elastica." Journal of the Mechanics and Physics of Solids 142 (2020).
 MBAL2_EI = (
     3.82e-5 * magnetic_field_strength * 4e-3 / (1.85e5 * np.pi / 4 * (0.4e-3) ** 4)
 )  # Magnetization magnitude * B * Length/(EI)
